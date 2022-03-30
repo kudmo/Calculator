@@ -1,5 +1,3 @@
-import abc
-from cmath import e
 import math
 from typing import Union,Optional
 
@@ -21,8 +19,7 @@ class Calculator():
     }
     
 
-
-    def braces_check(self,inp):
+    def braces_check(self,inp:str)->bool:
         """
         Return are input correct by braces
         """
@@ -40,7 +37,7 @@ class Calculator():
         else:
             return False
     
-    def operands_check(self,inp):
+    def operands_check(self,inp:str)->bool:
         """
         Return are input correct by operands
         """
@@ -51,7 +48,7 @@ class Calculator():
                 return False
         return True
 
-    def abc_parse(self,inp):
+    def abc_parse(self,inp:str)->list:
         k = True
         a = 0
         s = ''
@@ -76,7 +73,7 @@ class Calculator():
 
         return list(s)
 
-    def subelements_parse(self,input_str):
+    def subelements_parse(self,input_str:Union[list,str])->Union[list,str]:
         """
             Find all braces subelements and operands between it, than do it for all subelements
         """
@@ -156,7 +153,7 @@ class Calculator():
             parsed_list.append(self.subelements_parse(i))
         return parsed_list
 
-    def operand_priority(self,operand):
+    def operand_priority(self,operand:Union[str,list])->int:
         """
         Return priority of operand
         """
@@ -167,7 +164,7 @@ class Calculator():
             elif operand in self.func_operands: return 4
         return 50
     
-    def execution_order_parse(self,inp_str):
+    def execution_order_parse(self,inp_str:Union[list,str])->Union[list,str]:
         """
         Return actions ordered in Polish notation
         """
@@ -201,7 +198,7 @@ class Calculator():
         # If input isn't list it's just some number
         return inp_str
     
-    def execution_of_operations(self,operation_element):
+    def execution_of_operations(self,operation_element:Union[str,list])->float:
         """
         Return result of execution of operations
         """
@@ -215,7 +212,7 @@ class Calculator():
             return self.functions[operation_element[0]](operation_element,self)
     
 
-    def calculate(self,inp):
+    def calculate(self,inp:str)->Optional[float]:
         """
         Return result of mathematic order
         """
@@ -248,11 +245,3 @@ class Calculator():
             except:
                 print('Someting goes wrong')
                 break
-
-
-
-
-#calc = Calculator()
-#calc()
-
-
