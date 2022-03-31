@@ -6,22 +6,22 @@ class Calculator():
     operations = '+-*/^'
     ans = 0
     functions ={
-        '+': lambda s,self: self.execution_of_operations(s[1]) + self.execution_of_operations(s[2]),
-        '-': lambda s,self: self.execution_of_operations(s[1]) - self.execution_of_operations(s[2]),
-        '/': lambda s,self: self.execution_of_operations(s[1]) / self.execution_of_operations(s[2]),
-        '*': lambda s,self: self.execution_of_operations(s[1]) * self.execution_of_operations(s[2]),
-        '^': lambda s,self: self.execution_of_operations(s[1]) ** self.execution_of_operations(s[2]),
-        'sin': lambda s,self: math.sin(self.execution_of_operations(s[1])),
-        'cos': lambda s,self: math.cos(self.execution_of_operations(s[1])),
-        'tg': lambda s,self: math.tan(self.execution_of_operations(s[1])),
-        'log': lambda s,self: math.log2(self.execution_of_operations(s[1])),
-        'abs': lambda s,self: abs(self.execution_of_operations(s[1])),
+        '+': lambda s,self: self.executionOfOperations(s[1]) + self.executionOfOperations(s[2]),
+        '-': lambda s,self: self.executionOfOperations(s[1]) - self.executionOfOperations(s[2]),
+        '/': lambda s,self: self.executionOfOperations(s[1]) / self.executionOfOperations(s[2]),
+        '*': lambda s,self: self.executionOfOperations(s[1]) * self.executionOfOperations(s[2]),
+        '^': lambda s,self: self.executionOfOperations(s[1]) ** self.executionOfOperations(s[2]),
+        'sin': lambda s,self: math.sin(self.executionOfOperations(s[1])),
+        'cos': lambda s,self: math.cos(self.executionOfOperations(s[1])),
+        'tg': lambda s,self: math.tan(self.executionOfOperations(s[1])),
+        'log': lambda s,self: math.log2(self.executionOfOperations(s[1])),
+        'abs': lambda s,self: abs(self.executionOfOperations(s[1])),
     }
     
 
-    def braces_check(self,inp:str)->bool:
+    def bracesCheck(self,inp:str)->bool:
         """
-        Return are input correct by braces
+        Returns whether the parenthesized input expressions are correct
         """
         braces_stack = []
         for i in inp:
@@ -37,9 +37,9 @@ class Calculator():
         else:
             return False
     
-    def operands_check(self,inp:str)->bool:
+    def operandsCheck(self,inp:str)->bool:
         """
-        Return are input correct by operands
+        Returns whether the input is correct in terms of arithmetic operations
         """
         for i in range(len(inp)-1):
             if ((inp[i] == '(' and inp[i+1] in '+*/^') or
@@ -47,33 +47,48 @@ class Calculator():
                 (inp[i] in self.operations and inp[i+1] in self.operations)):
                 return False
         return True
+    
+    def absBracesCheck(self,inp:str)->bool:
+        """
+        Returns whether the input is correct from the point of view of parenthesized-abs expressions
+        """
+        return inp.count('|')%2==0
 
-    def abc_parse(self,inp:str)->list:
-        k = True
-        a = 0
-        s = ''
+    def checkingCorrectness(self,inp:str)->bool:
+        """
+        Returns whether the input is correct
+        """
+        return self.operandsCheck(inp) and self.bracesCheck(inp) and self.absBracesCheck(inp)
+
+    def absProcessing(self,inp:str)->list:
+        """
+        Decomposes the input according to the expressions enclosed in the module( abs)
+        """
+        indicator = True
+        abs_count = 0
+        output = ''
         for i in range(len(inp)):
             if inp[i]=='|':
-                if k:
-                    a+=1
-                    s = s + 'abs('
-                    k = False
+                if indicator:
+                    abs_count+=1
+                    output = output + 'abs('
+                    indicator = False
                 else:
                     if inp[i-1] in self.operations or inp[i-1] in self.func_operands:
-                        a+=1
-                        s = s+'abs('
+                        abs_count+=1
+                        output = output+'abs('
                     else:
-                        s = s+')'
-                        a-=1
-                        if a<=0:
-                            k = True           
+                        output = output+')'
+                        abs_count-=1
+                        if abs_count<=0:
+                            indicator = True           
                         
             else:
-                s = s+inp[i]
+                output = output+inp[i]
 
-        return list(s)
+        return list(output)
 
-    def subelements_parse(self,input_str:Union[list,str])->Union[list,str]:
+    def subelementsProcessing(self,input_str:Union[list,str])->Union[list,str]:
         """
             Find all braces subelements and operands between it, than do it for all subelements
         """
@@ -150,10 +165,10 @@ class Calculator():
         
         # For all subelement we need to parse it too
         for i in preparsed_subelements_list:
-            parsed_list.append(self.subelements_parse(i))
+            parsed_list.append(self.subelementsProcessing(i))
         return parsed_list
 
-    def operand_priority(self,operand:Union[str,list])->int:
+    def operationPriority(self,operand:Union[str,list])->int:
         """
         Return priority of operand
         """
@@ -164,7 +179,7 @@ class Calculator():
             elif operand in self.func_operands: return 4
         return 50
     
-    def execution_order_parse(self,inp_str:Union[list,str])->Union[list,str]:
+    def executionOrderProcessing(self,inp_str:Union[list,str])->Union[list,str]:
         """
         Return actions ordered in Polish notation
         """
@@ -181,24 +196,24 @@ class Calculator():
                     if inp_str[0] in self.func_operands:
                         
                         # return list in wich first is function, second is argument
-                        return [inp_str[0],self.execution_order_parse(inp_str[1])]
+                        return [inp_str[0],self.executionOrderProcessing(inp_str[1])]
                 
                 # In other case this means that it's ariphmethic operation
                 else:   
 
                     # Find last operand with min priority
                     for i in range(0,len(inp_str)):
-                        if self.operand_priority(inp_str[i])<=min_operand_priority:
-                            min_operand_priority = self.operand_priority(inp_str[i])
+                        if self.operationPriority(inp_str[i])<=min_operand_priority:
+                            min_operand_priority = self.operationPriority(inp_str[i])
                             min_operand_index = i
                     
                     # return list in wich first is operand, second and third are elements before operand and after
-                    return [inp_str[min_operand_index],self.execution_order_parse(inp_str[0:min_operand_index]),self.execution_order_parse(inp_str[min_operand_index+1:])]
+                    return [inp_str[min_operand_index],self.executionOrderProcessing(inp_str[0:min_operand_index]),self.executionOrderProcessing(inp_str[min_operand_index+1:])]
         
         # If input isn't list it's just some number
         return inp_str
     
-    def execution_of_operations(self,operation_element:Union[str,list])->float:
+    def executionOfOperations(self,operation_element:Union[str,list])->float:
         """
         Return result of execution of operations
         """
@@ -211,22 +226,25 @@ class Calculator():
         else:
             return self.functions[operation_element[0]](operation_element,self)
     
+    def run(self,inp):
+        if not self.checkingCorrectness(inp):
+            return None
+        else:
+            result = self.calculate(inp)
+            self.ans = result
+            return result
 
     def calculate(self,inp:str)->Optional[float]:
         """
         Return result of mathematic order
         """
         inp = inp.replace(' ','')
-
-        if not( self.braces_check(inp) and self.operands_check(inp)):
-            return None
         
-        s = self.abc_parse(inp)  
- 
-        s_parced = self.subelements_parse(s)
-        s_operands = self.execution_order_parse(s_parced)  
-        s_result = self.execution_of_operations(s_operands)
-        self.ans = s_result
+        s = self.absProcessing(inp)  
+
+        s_parced = self.subelementsProcessing(s)
+        s_operands = self.executionOrderProcessing(s_parced)  
+        s_result = self.executionOfOperations(s_operands)
 
         return s_result
 
@@ -235,12 +253,14 @@ class Calculator():
         print('To stop it precc Control C')
         while True:
             try:
-                res = self.calculate(input())
+                inp = input()
+                res = self.run(inp)
                 if not(res is None):
                     print('res:',res)
                 else:
                     print('Input is not correct')
             except KeyboardInterrupt:
+                print('Stopped')
                 break
             except:
                 print('Someting goes wrong')
