@@ -3,13 +3,14 @@
 """
 # Импортируем модуль времени
 from datetime import datetime
-# Импортируем класс интерфейса из созданного конвертером модуля 
+# Импортируем класс интерфейса из созданного конвертером модуля
+from PyQt5.QtWidgets import QMessageBox
 from form_ui import Ui_Form
-
+from calc_processor import Calculator
 
 # Создаём собственный класс, наследуясь от автоматически сгенерированного
 class MainWindowSlots(Ui_Form):
-    
+    calc = Calculator()
     # Определяем пользовательский слот
     def number_e_clicked(self):
         self.Input_order.setText(self.Input_order.text()+" e ")
@@ -48,4 +49,62 @@ class MainWindowSlots(Ui_Form):
         self.Input_order.setText(self.Input_order.text()+"9")
         return None
     
+    def operation_plus_clicked(self):
+        self.Input_order.setText(self.Input_order.text()+" + ")
+        return None
+    def operation_minus_clicked(self):
+        self.Input_order.setText(self.Input_order.text()+" - ")
+        return None
+    def operation_multiply_clicked(self):
+        self.Input_order.setText(self.Input_order.text()+" * ")
+        return None
+    def operation_devide_clicked(self):
+        self.Input_order.setText(self.Input_order.text()+" / ")
+        return None
+    def operation_exp_clicked(self):
+        self.Input_order.setText(self.Input_order.text()+" ^ ")
+        return None
     
+    def abs_braces(self):
+        self.Input_order.setText(self.Input_order.text()+"|")
+        return None
+    def left_brace(self):
+        self.Input_order.setText(self.Input_order.text()+"(")
+        return None
+    def right_brace(self):
+        self.Input_order.setText(self.Input_order.text()+")")
+        return None
+    
+    def func_sin_clicked(self):
+        self.Input_order.setText(self.Input_order.text()+"sin(")
+        return None
+    def func_cos_clicked(self):
+        self.Input_order.setText(self.Input_order.text()+"cos(")
+        return None
+    def func_tg_clicked(self):
+        self.Input_order.setText(self.Input_order.text()+"tg(")
+        return None
+    def func_log_clicked(self):
+        self.Input_order.setText(self.Input_order.text()+"log(")
+        return None
+
+    def clear_input(self):
+        self.Input_order.setText("")
+        return None
+    def del_symbol(self):
+        self.Input_order.setText(self.Input_order.text()[:-1])
+    def calculate_result(self):
+        inp = self.Input_order.text()
+        res = self.calc.run(inp)
+        if not res is None:
+            self.clear_input()
+            if self.History.text() == "":
+                self.History.setText(str(res))
+            else:
+                self.History.setText(self.History.text() + '\n' + str(res))
+        else:
+            msg = QMessageBox()
+            msg.setWindowTitle("")
+            msg.setText("Input isn't correct")
+            msg.setIcon(QMessageBox.Warning)
+            msg.exec_()
