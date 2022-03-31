@@ -34,6 +34,25 @@ class MainWindow(MainWindowSlots):
         self.number_7_b.clicked.connect(self.number_7_clicked)
         self.number_8_b.clicked.connect(self.number_8_clicked)
         self.number_9_b.clicked.connect(self.number_9_clicked)
+
+        self.operation_plus.clicked.connect(self.operation_plus_clicked)
+        self.operation_minus.clicked.connect(self.operation_minus_clicked)
+        self.operation_multiply.clicked.connect(self.operation_multiply_clicked)
+        self.operation_devide.clicked.connect(self.operation_devide_clicked)
+        self.operation_exp.clicked.connect(self.operation_exp_clicked)
+
+        self.brace_abs.clicked.connect(self.abs_braces)
+        self.brace_left.clicked.connect(self.left_brace)
+        self.brace_right.clicked.connect(self.right_brace)
+
+        self.function_sin.clicked.connect(self.func_sin_clicked)
+        self.function_cos.clicked.connect(self.func_cos_clicked)
+        self.function_tg.clicked.connect(self.func_tg_clicked)
+        self.function_log.clicked.connect(self.func_log_clicked)
+
+        self.delete_all.clicked.connect(self.clear_input)
+        self.delete_symbol.clicked.connect(self.del_symbol)
+        self.result.clicked.connect(self.calculate_result)
         return None
 
 if __name__ == '__main__':
