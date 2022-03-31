@@ -11,6 +11,7 @@ from calc_processor import Calculator
 # Создаём собственный класс, наследуясь от автоматически сгенерированного
 class MainWindowSlots(Ui_Form):
     calc = Calculator()
+    history = []
     # Определяем пользовательский слот
     def number_e_clicked(self):
         self.Input_order.setText(self.Input_order.text()+" e ")
@@ -98,9 +99,19 @@ class MainWindowSlots(Ui_Form):
         res = self.calc.run(inp)
         if not res is None:
             self.clear_input()
-            if self.History.text() == "":
-                self.History.setText(str(res))
+            if len(self.history)==5:
+                self.history.append(str(res))
+                self.history.pop(0)
+                self.History.setText(self.history[0] +'\n'
+                                    +self.history[1] +'\n'
+                                    +self.history[2] +'\n'
+                                    +self.history[3] +'\n'
+                                    +self.history[4])
+            elif len(self.history)==0:
+                self.history.append(str(res))
+                self.History.setText(self.history[0])
             else:
+                self.history.append(str(res))
                 self.History.setText(self.History.text() + '\n' + str(res))
         else:
             msg = QMessageBox()
