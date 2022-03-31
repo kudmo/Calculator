@@ -101,6 +101,7 @@ class Ui_Form(object):
         self.operation_minus.setObjectName("operation_minus")
         self.Input_order = QtWidgets.QLineEdit(Form)
         self.Input_order.setGeometry(QtCore.QRect(10, 140, 631, 70))
+        self.Input_order.setText("")
         self.Input_order.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.Input_order.setObjectName("Input_order")
         self.History = QtWidgets.QLabel(Form)
@@ -142,4 +143,3 @@ class Ui_Form(object):
         self.operation_plus.setText(_translate("Form", "+"))
         self.number_4_b.setText(_translate("Form", "4"))
         self.operation_minus.setText(_translate("Form", "-"))
-        self.Input_order.setText(_translate("Form", "0"))
