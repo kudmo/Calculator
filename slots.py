@@ -16,76 +16,76 @@ class MainWindowSlots(Ui_Form):
     def number_e_clicked(self):
         self.Input_order.setText(self.Input_order.text()+" e ")
         return None
-    def number_pi_clicked(self):
+    def numberPiClicked(self):
         self.Input_order.setText(self.Input_order.text()+" pi ")
         return None
-    def number_0_clicked(self):
+    def numberZeroClicked(self):
         self.Input_order.setText(self.Input_order.text()+"0")
         return None
-    def number_1_clicked(self):
+    def numberOneClicked(self):
         self.Input_order.setText(self.Input_order.text()+"1")
         return None
-    def number_2_clicked(self):
+    def numberTwoClicked(self):
         self.Input_order.setText(self.Input_order.text()+"2")
         return None
-    def number_3_clicked(self):
+    def numberThreeClicked(self):
         self.Input_order.setText(self.Input_order.text()+"3")
         return None
-    def number_4_clicked(self):
+    def numberFourClicked(self):
         self.Input_order.setText(self.Input_order.text()+"4")
         return None
-    def number_5_clicked(self):
+    def numberFiveClicked(self):
         self.Input_order.setText(self.Input_order.text()+"5")
         return None
-    def number_6_clicked(self):
+    def numberSixClicked(self):
         self.Input_order.setText(self.Input_order.text()+"6")
         return None    
-    def number_7_clicked(self):
+    def numberSevenClicked(self):
         self.Input_order.setText(self.Input_order.text()+"7")
         return None
-    def number_8_clicked(self):
+    def numberEightClicked(self):
         self.Input_order.setText(self.Input_order.text()+"8")
         return None
-    def number_9_clicked(self):
+    def numberNineClicked(self):
         self.Input_order.setText(self.Input_order.text()+"9")
         return None
     
-    def operation_plus_clicked(self):
+    def operationPlusClicked(self):
         self.Input_order.setText(self.Input_order.text()+" + ")
         return None
-    def operation_minus_clicked(self):
+    def operationMinusClicked(self):
         self.Input_order.setText(self.Input_order.text()+" - ")
         return None
-    def operation_multiply_clicked(self):
+    def operationMultiplyClicked(self):
         self.Input_order.setText(self.Input_order.text()+" * ")
         return None
-    def operation_devide_clicked(self):
+    def operationDevideClicked(self):
         self.Input_order.setText(self.Input_order.text()+" / ")
         return None
-    def operation_exp_clicked(self):
+    def operationExpClicked(self):
         self.Input_order.setText(self.Input_order.text()+" ^ ")
         return None
     
-    def abs_braces(self):
+    def absBraces(self):
         self.Input_order.setText(self.Input_order.text()+"|")
         return None
-    def left_brace(self):
+    def leftBrace(self):
         self.Input_order.setText(self.Input_order.text()+"(")
         return None
-    def right_brace(self):
+    def rightBrace(self):
         self.Input_order.setText(self.Input_order.text()+")")
         return None
     
-    def func_sin_clicked(self):
+    def funcSinClicked(self):
         self.Input_order.setText(self.Input_order.text()+"sin(")
         return None
-    def func_cos_clicked(self):
+    def funcCosClicked(self):
         self.Input_order.setText(self.Input_order.text()+"cos(")
         return None
-    def func_tg_clicked(self):
+    def funcTgClicked(self):
         self.Input_order.setText(self.Input_order.text()+"tg(")
         return None
-    def func_log_clicked(self):
+    def funcLogClicked(self):
         self.Input_order.setText(self.Input_order.text()+"log(")
         return None
 
