@@ -11,9 +11,9 @@ from calc_processor import Calculator
 # Создаём собственный класс, наследуясь от автоматически сгенерированного
 class MainWindowSlots(Ui_Form):
     calc = Calculator()
-    history = []
+    history = ['','','','','']
     # Определяем пользовательский слот
-    def number_e_clicked(self):
+    def numberEilerClicked(self):
         self.Input_order.setText(self.Input_order.text()+" e ")
         return None
     def numberPiClicked(self):
@@ -63,7 +63,7 @@ class MainWindowSlots(Ui_Form):
         self.Input_order.setText(self.Input_order.text()+" / ")
         return None
     def operationExpClicked(self):
-        self.Input_order.setText(self.Input_order.text()+" ^ ")
+        self.Input_order.setText(self.Input_order.text()+"^")
         return None
     
     def absBraces(self):
@@ -89,30 +89,30 @@ class MainWindowSlots(Ui_Form):
         self.Input_order.setText(self.Input_order.text()+"log(")
         return None
 
-    def clear_input(self):
+    def clearInput(self):
         self.Input_order.setText("")
         return None
-    def del_symbol(self):
+    def clearAll(self):
+        self.clearInput()
+        self.history = ['','','','','']
+        self.History.setText('')
+        self.calc.ans = 0.0
+        return None
+    def deleteSymbol(self):
         self.Input_order.setText(self.Input_order.text()[:-1])
     def calculate_result(self):
         inp = self.Input_order.text()
         res = self.calc.run(inp)
         if not res is None:
-            self.clear_input()
-            if len(self.history)==5:
-                self.history.append(str(res))
-                self.history.pop(0)
-                self.History.setText(self.history[0] +'\n'
-                                    +self.history[1] +'\n'
-                                    +self.history[2] +'\n'
-                                    +self.history[3] +'\n'
-                                    +self.history[4])
-            elif len(self.history)==0:
-                self.history.append(str(res))
-                self.History.setText(self.history[0])
-            else:
-                self.history.append(str(res))
-                self.History.setText(self.History.text() + '\n' + str(res))
+            self.clearInput()
+            
+            self.history.append(str(res))
+            self.history.pop(0)
+            self.History.setText(self.history[0] +'\n'
+                                +self.history[1] +'\n'
+                                +self.history[2] +'\n'
+                                +self.history[3] +'\n'
+                                +"Ans = " + self.history[4])
         else:
             msg = QMessageBox()
             msg.setWindowTitle("")

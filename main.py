@@ -23,7 +23,7 @@ class MainWindow(MainWindowSlots):
     # Подключаем слоты к виджетам
     def connect_slots(self):
         self.number_pi_b.clicked.connect(self.numberPiClicked)
-        self.number_e_b.clicked.connect(self.number_e_clicked)
+        self.number_e_b.clicked.connect(self.numberEilerClicked)
         self.number_0_b.clicked.connect(self.numberZeroClicked)
         self.number_1_b.clicked.connect(self.numberOneClicked)
         self.number_2_b.clicked.connect(self.numberTwoClicked)
@@ -50,9 +50,12 @@ class MainWindow(MainWindowSlots):
         self.function_tg.clicked.connect(self.funcTgClicked)
         self.function_log.clicked.connect(self.funcLogClicked)
 
-        self.delete_all.clicked.connect(self.clear_input)
-        self.delete_symbol.clicked.connect(self.del_symbol)
+        self.delete_all.clicked.connect(self.clearAll)
+        self.delete_symbol.clicked.connect(self.deleteSymbol)
         self.result.clicked.connect(self.calculate_result)
+
+        self.Input_order.setFocus()
+        self.Input_order.returnPressed.connect(self.result.click)
         return None
 
 if __name__ == '__main__':
