@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ui version="4.0">
- <class>Form</class>
- <widget class="QWidget" name="Form">
+ <class>main_window</class>
+ <widget class="QWidget" name="main_window">
   <property name="geometry">
    <rect>
     <x>0</x>
@@ -377,7 +377,7 @@
     <string>-</string>
    </property>
   </widget>
-  <widget class="QLineEdit" name="Input_order">
+  <widget class="QLineEdit" name="input_order">
    <property name="geometry">
     <rect>
      <x>10</x>
@@ -393,7 +393,7 @@
     <set>Qt::AlignRight|Qt::AlignTrailing|Qt::AlignVCenter</set>
    </property>
   </widget>
-  <widget class="QLabel" name="History">
+  <widget class="QLabel" name="last_operation">
    <property name="geometry">
     <rect>
      <x>10</x>
