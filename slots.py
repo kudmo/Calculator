@@ -1,121 +1,158 @@
-"""
-Пользовательские слоты для виджетов.
-"""
-# Импортируем модуль времени
-from datetime import datetime
-# Импортируем класс интерфейса из созданного конвертером модуля
+from decimal import DivisionByZero
 from PyQt5.QtWidgets import QMessageBox
-from form_ui import Ui_Form
+from form_ui import Ui_main_window
 from calc_processor import Calculator
-
-# Создаём собственный класс, наследуясь от автоматически сгенерированного
-class MainWindowSlots(Ui_Form):
+from history_window import HistoryWindow
+class MainWindowSlots(Ui_main_window):
     calc = Calculator()
-    history = ['','','','','']
-    # Определяем пользовательский слот
     def numberEilerClicked(self):
-        self.Input_order.setText(self.Input_order.text()+" e ")
+        self.input_order.setText(self.input_order.text()+" e ")
+        self.input_order.setFocus()
         return None
     def numberPiClicked(self):
-        self.Input_order.setText(self.Input_order.text()+" pi ")
+        self.input_order.setText(self.input_order.text()+" pi ")
+        self.input_order.setFocus()
         return None
     def numberZeroClicked(self):
-        self.Input_order.setText(self.Input_order.text()+"0")
+        self.input_order.setText(self.input_order.text()+"0")
+        self.input_order.setFocus()
         return None
     def numberOneClicked(self):
-        self.Input_order.setText(self.Input_order.text()+"1")
+        self.input_order.setText(self.input_order.text()+"1")
+        self.input_order.setFocus()
         return None
     def numberTwoClicked(self):
-        self.Input_order.setText(self.Input_order.text()+"2")
+        self.input_order.setText(self.input_order.text()+"2")
+        self.input_order.setFocus()
         return None
     def numberThreeClicked(self):
-        self.Input_order.setText(self.Input_order.text()+"3")
+        self.input_order.setText(self.input_order.text()+"3")
+        self.input_order.setFocus()
         return None
     def numberFourClicked(self):
-        self.Input_order.setText(self.Input_order.text()+"4")
+        self.input_order.setText(self.input_order.text()+"4")
+        self.input_order.setFocus()
         return None
     def numberFiveClicked(self):
-        self.Input_order.setText(self.Input_order.text()+"5")
+        self.input_order.setText(self.input_order.text()+"5")
+        self.input_order.setFocus()
         return None
     def numberSixClicked(self):
-        self.Input_order.setText(self.Input_order.text()+"6")
+        self.input_order.setText(self.input_order.text()+"6")
+        self.input_order.setFocus()
         return None    
     def numberSevenClicked(self):
-        self.Input_order.setText(self.Input_order.text()+"7")
+        self.input_order.setText(self.input_order.text()+"7")
+        self.input_order.setFocus()
         return None
     def numberEightClicked(self):
-        self.Input_order.setText(self.Input_order.text()+"8")
+        self.input_order.setText(self.input_order.text()+"8")
+        self.input_order.setFocus()
         return None
     def numberNineClicked(self):
-        self.Input_order.setText(self.Input_order.text()+"9")
+        self.input_order.setText(self.input_order.text()+"9")
+        self.input_order.setFocus()
         return None
     
     def operationPlusClicked(self):
-        self.Input_order.setText(self.Input_order.text()+" + ")
+        self.input_order.setText(self.input_order.text()+" + ")
+        self.input_order.setFocus()
         return None
     def operationMinusClicked(self):
-        self.Input_order.setText(self.Input_order.text()+" - ")
+        self.input_order.setText(self.input_order.text()+" - ")
+        self.input_order.setFocus()
         return None
     def operationMultiplyClicked(self):
-        self.Input_order.setText(self.Input_order.text()+" * ")
+        self.input_order.setText(self.input_order.text()+" * ")
+        self.input_order.setFocus()
         return None
     def operationDevideClicked(self):
-        self.Input_order.setText(self.Input_order.text()+" / ")
+        self.input_order.setText(self.input_order.text()+" / ")
+        self.input_order.setFocus()
         return None
     def operationExpClicked(self):
-        self.Input_order.setText(self.Input_order.text()+"^")
+        self.input_order.setText(self.input_order.text()+"^")
+        self.input_order.setFocus()
         return None
     
     def absBraces(self):
-        self.Input_order.setText(self.Input_order.text()+"|")
+        self.input_order.setText(self.input_order.text()+"|")
+        self.input_order.setFocus()
         return None
     def leftBrace(self):
-        self.Input_order.setText(self.Input_order.text()+"(")
+        self.input_order.setText(self.input_order.text()+"(")
+        self.input_order.setFocus()
         return None
     def rightBrace(self):
-        self.Input_order.setText(self.Input_order.text()+")")
+        self.input_order.setText(self.input_order.text()+")")
+        self.input_order.setFocus()
         return None
     
     def funcSinClicked(self):
-        self.Input_order.setText(self.Input_order.text()+"sin(")
+        self.input_order.setText(self.input_order.text()+"sin(")
+        self.input_order.setFocus()
         return None
     def funcCosClicked(self):
-        self.Input_order.setText(self.Input_order.text()+"cos(")
+        self.input_order.setText(self.input_order.text()+"cos(")
+        self.input_order.setFocus()
         return None
     def funcTgClicked(self):
-        self.Input_order.setText(self.Input_order.text()+"tg(")
+        self.input_order.setText(self.input_order.text()+"tg(")
+        self.input_order.setFocus()
         return None
     def funcLogClicked(self):
-        self.Input_order.setText(self.Input_order.text()+"log(")
+        self.input_order.setText(self.input_order.text()+"log(")
+        self.input_order.setFocus()
         return None
 
     def clearInput(self):
-        self.Input_order.setText("")
+        self.input_order.setText("")
+        self.input_order.setFocus()
         return None
     def clearAll(self):
         self.clearInput()
-        self.history = ['','','','','']
-        self.History.setText('')
+        self.last_operation.setText('')
         self.calc.ans = 0.0
+        self.input_order.setFocus()
         return None
     def deleteSymbol(self):
-        self.Input_order.setText(self.Input_order.text()[:-1])
-    def calculate_result(self):
-        inp = self.Input_order.text()
-        res = self.calc.run(inp)
-        if not res is None:
-            self.clearInput()
-            
-            self.history.append(str(res))
-            self.history.pop(0)
-            self.History.setText(self.history[0] +'\n'
-                                +self.history[1] +'\n'
-                                +self.history[2] +'\n'
-                                +self.history[3] +'\n'
-                                +"Ans = " + self.history[4])
-        else:
-            msg = QMessageBox()
-            msg.setWindowTitle("")
-            msg.setText("Input isn't correct")
-            msg.setIcon(QMessageBox.Warning)
-            msg.exec_()
+        self.input_order.setText(self.input_order.text()[:-1])
+        self.input_order.setFocus()
+        return None
+    def ansButtonClicked(self):
+        self.input_order.setText(self.input_order.text()+"Ans")
+        self.input_order.setFocus()
+        return None
+    def show_history_window(self):
+        if not self.is_history_window_open:
+            self.history_window = HistoryWindow()
+            self.history_window.setGeometry(500, 300, 300, 300)
+            self.history_window.setWindowTitle('History')
+            self.history_window.show()
+            self.is_history_window_open = True
+        self.history_window.addNewOrderInHistory(self.last_operation.text())
+
+    def calculateResult(self):
+        inp = self.input_order.text()
+        if not inp=='':
+            try:
+                res = self.calc.run(inp)
+                assert(not res is None)
+                
+                self.clearInput()
+                self.last_operation.setText(str(inp) +' = '+ str(res) )
+                self.show_history_window()
+            except AssertionError:
+                msg = QMessageBox()
+                msg.setWindowTitle("")
+                msg.setText("Input isn't correct")
+                msg.setIcon(QMessageBox.Warning)
+                msg.exec_()
+            except ZeroDivisionError:
+                msg = QMessageBox()
+                msg.setWindowTitle("")
+                msg.setText("Devision by zero")
+                msg.setIcon(QMessageBox.Warning)
+                msg.exec_()
+            self.input_order.setFocus()
+        return None

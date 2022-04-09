@@ -1,26 +1,14 @@
-"""
-Основной скрипт программы.
-Запускает конфигуратор окна, подключает слоты и отображает окно.
-"""
-# Импортируем системый модуль для корректного закрытия программы
 import sys
-# Импортируем минимальный набор виджетов
 from PyQt5.QtWidgets import QApplication, QWidget
-# Импортируем созданный нами класс со слотами
 from slots import MainWindowSlots
 
-
-# Создаём ещё один класс, наследуясь от класса со слотами
 class MainWindow(MainWindowSlots):
 
-    # При инициализации класса нам необходимо выпонить некоторые операции
     def __init__(self, form):
-        # Сконфигурировать интерфейс методом из базового класса Ui_Form
+        self.is_history_window_open = False
         self.setupUi(form)
-        # Подключить созданные нами слоты к виджетам
         self.connect_slots()
-
-    # Подключаем слоты к виджетам
+        
     def connect_slots(self):
         self.number_pi_b.clicked.connect(self.numberPiClicked)
         self.number_e_b.clicked.connect(self.numberEilerClicked)
@@ -52,20 +40,19 @@ class MainWindow(MainWindowSlots):
 
         self.delete_all.clicked.connect(self.clearAll)
         self.delete_symbol.clicked.connect(self.deleteSymbol)
-        self.result.clicked.connect(self.calculate_result)
+        self.ans_b.clicked.connect(self.ansButtonClicked)
+        self.result.clicked.connect(self.calculateResult)
 
-        self.Input_order.setFocus()
-        self.Input_order.returnPressed.connect(self.result.click)
+
+        self.input_order.setFocus()
+        self.input_order.returnPressed.connect(self.result.click)
         return None
 
 if __name__ == '__main__':
-    # Создаём экземпляр приложения
     app = QApplication(sys.argv)
-    # Создаём базовое окно, в котором будет отображаться наш UI
     window = QWidget()
-    # Создаём экземпляр нашего UI
+    window.setWindowTitle('Calculator')
     ui = MainWindow(window)
-    # Отображаем окно
     window.show()
-    # Обрабатываем нажатие на кнопку окна "Закрыть"
-    sys.exit(app.exec_())
+    ret = app.exec_()
+    sys.exit(ret)
