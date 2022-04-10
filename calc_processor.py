@@ -25,11 +25,12 @@ class Calculator():
         """
         braces_stack = []
         for i in inp:
-            if i=='(':
+            if i=='(' or i =='[':
                 braces_stack.append(i)
-            elif i==')':
+            elif i==')' or i ==']':
                 try:
-                    braces_stack.pop()
+                    c = braces_stack.pop()
+                    assert(c=='[' and i==']' or c=='(' and i==')')
                 except:
                     return False
         if( len(braces_stack)==0):
@@ -41,24 +42,20 @@ class Calculator():
         """
         Returns whether the input is correct in terms of arithmetic operations
         """
+        if inp[-1] in self.operations:
+            return False
         for i in range(len(inp)-1):
-            if ((inp[i] == '(' and inp[i+1] in '+*/^') or
-                (inp[i]==')' and inp[i+1] in ['1','2','3','4','5','6','7','8','9','0']) or
+            if (((inp[i] == '(' or inp[i] == '[') and inp[i+1] in '+*/^') or
+                ((inp[i]==')'or inp[i] == ']') and inp[i+1] in ['1','2','3','4','5','6','7','8','9','0']) or
                 (inp[i] in self.operations and inp[i+1] in self.operations)):
                 return False
         return True
     
-    def absBracesCheck(self,inp:str)->bool:
-        """
-        Returns whether the input is correct from the point of view of parenthesized-abs expressions
-        """
-        return inp.count('|')%2==0
-
     def checkingCorrectness(self,inp:str)->bool:
         """
         Returns whether the input is correct
         """
-        return self.operandsCheck(inp) and self.bracesCheck(inp) and self.absBracesCheck(inp)
+        return self.operandsCheck(inp) and self.bracesCheck(inp)
 
     def absProcessing(self,inp:str)->list:
         """
@@ -71,14 +68,14 @@ class Calculator():
             if inp[i]=='|':
                 if indicator:
                     abs_count+=1
-                    output = output + 'abs('
+                    output = output + 'abs['
                     indicator = False
                 else:
                     if inp[i-1] in self.operations or inp[i-1] in self.func_operands:
                         abs_count+=1
-                        output = output+'abs('
+                        output = output+'abs['
                     else:
-                        output = output+')'
+                        output = output+']'
                         abs_count-=1
                         if abs_count<=0:
                             indicator = True           
@@ -226,10 +223,12 @@ class Calculator():
         else:
             return self.functions[operation_element[0]](operation_element,self)
     
-    def run(self,inp):
-        if not self.checkingCorrectness(inp):
+    def run(self,inp:str):
+        abs_preparsed = self.absProcessing(inp.replace(' ',''))
+        if not self.checkingCorrectness(abs_preparsed):
             return None
         else:
+            inp = ''.join(abs_preparsed)
             result = self.calculate(inp)
             self.ans = result
             return result
@@ -238,9 +237,7 @@ class Calculator():
         """
         Return result of mathematic order
         """
-        inp = inp.replace(' ','')
-        
-        s = self.absProcessing(inp)  
+        s = list(inp.replace('[','(').replace(']',')'))
 
         s_parced = self.subelementsProcessing(s)
         s_operands = self.executionOrderProcessing(s_parced)  
