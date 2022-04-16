@@ -1,5 +1,52 @@
 import math
+import re
 from typing import Union,Optional
+
+from numpy import mat
+
+class Trigonomethry():
+    """
+    This class describes trigonometric functions of increased accuracy on tabular values
+    """
+    @staticmethod
+    def new_sin(x):
+        p = math.pi
+        if x%(p)==0:
+            return 0
+        elif x%(2*p)==p/6 or x%(2*p)==5*p/6:
+            return 0.5
+        elif x%(2*p)==p+p/6 or x%(2*p)==p+5*p/6:
+            return -0.5
+        else:
+            return math.sin(x)
+    
+    @staticmethod
+    def new_cos(x):
+        p = math.pi
+        if x%(2*p)==p/3 or x%(2*p)==2*p - p/3:
+            return 0.5
+        elif x%(2*p)==p+p/3 or x%(2*p)==2*p-2*p/6:
+            return -0.5
+        elif x%(p/2)==0:
+            return 0
+        else:
+            return math.sin(x)
+    
+    @staticmethod
+    def new_tan(x):
+        p = math.pi
+        if x%(p)==p/4:
+            return 1
+        elif x%(p) == 3*p/4:
+            return -1
+        elif x%(p)==0:
+            return 0
+        elif x%(p)==p/2:
+            return 1/0
+        else:
+            return math.tan(p)
+        
+
 
 class Calculator():
     func_operands = ['sin','cos','tg','log','abs']
@@ -11,9 +58,9 @@ class Calculator():
         '/': lambda s,self: self.executionOfOperations(s[1]) / self.executionOfOperations(s[2]),
         '*': lambda s,self: self.executionOfOperations(s[1]) * self.executionOfOperations(s[2]),
         '^': lambda s,self: self.executionOfOperations(s[1]) ** self.executionOfOperations(s[2]),
-        'sin': lambda s,self: math.sin(self.executionOfOperations(s[1])),
-        'cos': lambda s,self: math.cos(self.executionOfOperations(s[1])),
-        'tg': lambda s,self: math.tan(self.executionOfOperations(s[1])),
+        'sin': lambda s,self: Trigonomethry.new_sin(self.executionOfOperations(s[1])),
+        'cos': lambda s,self: Trigonomethry.new_cos(self.executionOfOperations(s[1])),
+        'tg': lambda s,self: Trigonomethry.new_tan(self.executionOfOperations(s[1])),
         'log': lambda s,self: math.log2(self.executionOfOperations(s[1])),
         'abs': lambda s,self: abs(self.executionOfOperations(s[1])),
     }
@@ -237,7 +284,7 @@ class Calculator():
         """
         Return result of mathematic order
         """
-        s = list(inp.replace('[','(').replace(']',')'))
+        s = list(inp.replace('[','(').replace(']',')').replace(',','.'))
 
         s_parced = self.subelementsProcessing(s)
         s_operands = self.executionOrderProcessing(s_parced)  
