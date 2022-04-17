@@ -65,8 +65,47 @@ class Calculator():
         'abs': lambda s,self: abs(self.executionOfOperations(s[1])),
     }
     
+    def functionsCheck(self, inp:str)->bool:
+        """
+        Returns whether the entered functions are syntactically correct
+        """
+        for i in range(len(inp)-3):
+            if (inp[i]+inp[i+1]+inp[i+2] in self.func_operands and inp[i+3]!='(') or (inp[i]+inp[i+1] in self.func_operands and inp[i+2]!='('):
+                return False
+        return True
+    
+    def numbersCheck(self, inp:str)->bool:
+        """
+        Returns whether there is an operation between each number
+        """
+        is_it_number = False
+        was_there_an_operation = False
+        status = 0
+        for i in inp:
+            if status>1:
+                return False
+            if i in '0123456789' and not is_it_number:
+                is_it_number = True
+                status+=1
+            elif (not i in '0123456789') and is_it_number:
+                is_it_number= False
+            
+            if i in self.operations:
+                if not was_there_an_operation:
+                    status-=1
+                    was_there_an_operation = True
+                elif was_there_an_operation:
+                    was_there_an_operation = False
 
-    def bracesCheck(self,inp:str)->bool:
+        return True
+
+    def spacesCheck(self,inp:str)->bool:
+        """
+        Returns whether the input is correct in terms of spaces
+        """
+        return self.numbersCheck(inp) and self.functionsCheck(inp)
+    
+    def bracesCheck(self,inp:list)->bool:
         """
         Returns whether the parenthesized input expressions are correct
         """
@@ -85,7 +124,7 @@ class Calculator():
         else:
             return False
     
-    def operandsCheck(self,inp:str)->bool:
+    def operandsCheck(self,inp:list)->bool:
         """
         Returns whether the input is correct in terms of arithmetic operations
         """
@@ -94,13 +133,15 @@ class Calculator():
         for i in range(len(inp)-1):
             if (((inp[i] == '(' or inp[i] == '[') and inp[i+1] in '+*/^') or
                 ((inp[i]==')'or inp[i] == ']') and inp[i+1] in ['1','2','3','4','5','6','7','8','9','0']) or
+                inp[i] in ['1','2','3','4','5','6','7','8','9','0']) and ((inp[i+1]=='('or inp[i+1] == '[') or
                 (inp[i] in self.operations and inp[i+1] in self.operations)):
                 return False
         return True
     
-    def checkingCorrectness(self,inp:str)->bool:
+
+    def checkingCorrectness(self,inp:list)->bool:
         """
-        Returns whether the input is correct
+        Returns whether the input without spaces is correct
         """
         return self.operandsCheck(inp) and self.bracesCheck(inp)
 
@@ -271,6 +312,8 @@ class Calculator():
             return self.functions[operation_element[0]](operation_element,self)
     
     def run(self,inp:str):
+        if not self.spacesCheck(inp):
+            return None
         abs_preparsed = self.absProcessing(inp.replace(' ',''))
         if not self.checkingCorrectness(abs_preparsed):
             return None
