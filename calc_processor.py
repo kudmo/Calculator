@@ -138,12 +138,12 @@ class Calculator():
                 return False
         return True
     
-
     def checkingCorrectness(self,inp:list)->bool:
         """
         Returns whether the input without spaces is correct
         """
         return self.operandsCheck(inp) and self.bracesCheck(inp)
+
 
     def absProcessing(self,inp:str)->list:
         """
@@ -173,85 +173,75 @@ class Calculator():
 
         return list(output)
 
-    def subelementsProcessing(self,input_str:Union[list,str])->Union[list,str]:
+    def numbersProcessing(self,inp):
         """
-            Find all braces subelements and operands between it, than do it for all subelements
+        Splits a string into numbers and operations
         """
-        if not isinstance(input_str,list):
-            # If it isn't list, we not need to parse it
-            return input_str
+        parced = []
+        number = ''
+        for i in inp:
+            if i in self.operations+'()[]':
+                if number!='':
+                    parced.append(number)
+                    number = ''
+                parced.append(i)
+            else:
+                number+=i
+        if number!='':
+            parced.append(number)        
+        return parced
 
-        preparsed_subelements_list = []     # Pre-processed ist
-        braces_status = 0                   # It's show how many braces is already open
-        subelement_index = 0                # Index that show index of current subelement
-        subelement_status = False           # Show, Are we set subelement right now
+    def subelementsProcessing(self,input_str):
+            """
+                Find all braces subelements and operands between it, than do it for all subelements
+            """
+            if not isinstance(input_str,list):
+                # If it isn't list, we not need to parse it
+                return input_str
+
+            preparsed_subelements_list = []     # Pre-processed ist
+            braces_status = 0                   # It's show how many braces is already open
+            subelement_index = 0                # Index that show index of current subelement
+            subelement_status = False           # Show, Are we set subelement right now
 
 
-        for i in input_str:
-            # If now we not set SUB we just see element by element, while we not find open braces
-            
-            if not subelement_status:
+            for i in input_str:
+                # If now we not set SUB we just see element by element, while we not find open braces
                 
-                # If we find it: increase braces_status, set correct SUB_status and append SUB list
-                if i == '(':
-                    preparsed_subelements_list.append([]) 
-                    braces_status+=1
-                    subelement_status = True
-                else:
+                if not subelement_status:
                     
-                    # Else, if it not operation, we fill out current elemen by one number 
-                    if i not in self.operations:
-                        if len(preparsed_subelements_list)>0:
-                            
-                            if preparsed_subelements_list[-1] not in self.operations:
-                                preparsed_subelements_list[-1]+=i
-                            else:
-                                subelement_index+=1
-                                preparsed_subelements_list.append(i)
-                        else:
-                            subelement_index+=1
-                            preparsed_subelements_list.append(i)
-                    # If it operation, stop fill out current and append operation
+                    # If we find it: increase braces_status, set correct SUB_status and append SUB list
+                    if i == '(':
+                        preparsed_subelements_list.append([]) 
+                        braces_status+=1
+                        subelement_status = True
                     else:
                         subelement_index+=1
                         preparsed_subelements_list.append(i)
-                    # After appending new element increase SUB_index
-            # If we fiiling out subelemet right now, we do thr same operations, but append elements in subelement, not in result list
-            else:
-                if i == '(':
-                    preparsed_subelements_list[subelement_index].append(i)
-                    braces_status+=1
-                elif i==')':
-                    # If count of open braces the same as count of End braces - it's mean that SUB is end
-                    braces_status-=1
-                    if braces_status==0:
-                        subelement_index+=1
-                        subelement_status = False
-                    else:
-                        preparsed_subelements_list[subelement_index].append(i)
                 else:
-                    if i not in self.operations:
-                        if len(preparsed_subelements_list[subelement_index])>0:
-                            if preparsed_subelements_list[subelement_index][-1] not in self.operations+'()':
-                                preparsed_subelements_list[subelement_index][-1]+=i
-                            else:
-                                preparsed_subelements_list[subelement_index].append(i)
+                    if i == '(':
+                        preparsed_subelements_list[subelement_index].append(i)
+                        braces_status+=1
+                    elif i==')':
+                        # If count of open braces the same as count of End braces - it's mean that SUB is end
+                        braces_status-=1
+                        if braces_status==0:
+                            subelement_index+=1
+                            subelement_status = False
                         else:
                             preparsed_subelements_list[subelement_index].append(i)
                     else:
                         preparsed_subelements_list[subelement_index].append(i)
-        
-        parsed_list = []
-        
-        # If first element is - it's means that first element if negative number
-        if preparsed_subelements_list[0]=='-':
-            preparsed_subelements_list = ['0','-'] + preparsed_subelements_list[1:]
-        
-        
-        # For all subelement we need to parse it too
-        for i in preparsed_subelements_list:
-            parsed_list.append(self.subelementsProcessing(i))
-        return parsed_list
+            
+            parsed_list = []
+            
+            if preparsed_subelements_list[0]=='-':
+                preparsed_subelements_list = ['0','-'] + preparsed_subelements_list[1:]
+            
+            for i in preparsed_subelements_list:
+                parsed_list.append(self.subelementsProcessing(i))
+            return parsed_list
+
 
     def operationPriority(self,operand:Union[str,list])->int:
         """
@@ -329,7 +319,8 @@ class Calculator():
         """
         s = list(inp.replace('[','(').replace(']',')').replace(',','.'))
 
-        s_parced = self.subelementsProcessing(s)
+        s_number_parced = self.numbersProcessing(s)
+        s_parced = self.subelementsProcessing(s_number_parced)
         s_operands = self.executionOrderProcessing(s_parced)  
         s_result = self.executionOfOperations(s_operands)
 
