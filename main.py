@@ -51,7 +51,6 @@ class MainWindow(MainWindowSlots):
 if __name__ == '__main__':
     app = QApplication(sys.argv)
     window = QWidget()
-    window.setWindowTitle('Calculator')
     ui = MainWindow(window)
     window.show()
     ret = app.exec_()

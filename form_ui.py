@@ -14,7 +14,7 @@ from PyQt5 import QtCore, QtGui, QtWidgets
 class Ui_main_window(object):
     def setupUi(self, main_window):
         main_window.setObjectName("main_window")
-        main_window.resize(652, 539)
+        main_window.resize(661, 536)
         self.number_e_b = QtWidgets.QPushButton(main_window)
         self.number_e_b.setGeometry(QtCore.QRect(10, 460, 81, 71))
         self.number_e_b.setObjectName("number_e_b")
@@ -100,12 +100,12 @@ class Ui_main_window(object):
         self.operation_minus.setGeometry(QtCore.QRect(370, 220, 80, 71))
         self.operation_minus.setObjectName("operation_minus")
         self.input_order = QtWidgets.QLineEdit(main_window)
-        self.input_order.setGeometry(QtCore.QRect(10, 140, 631, 70))
+        self.input_order.setGeometry(QtCore.QRect(10, 140, 641, 70))
         self.input_order.setText("")
         self.input_order.setAlignment(QtCore.Qt.AlignRight|QtCore.Qt.AlignTrailing|QtCore.Qt.AlignVCenter)
         self.input_order.setObjectName("input_order")
         self.last_operation = QtWidgets.QLabel(main_window)
-        self.last_operation.setGeometry(QtCore.QRect(10, 20, 621, 111))
+        self.last_operation.setGeometry(QtCore.QRect(10, 20, 641, 111))
         self.last_operation.setText("")
         self.last_operation.setObjectName("last_operation")
 
@@ -114,7 +114,7 @@ class Ui_main_window(object):
 
     def retranslateUi(self, main_window):
         _translate = QtCore.QCoreApplication.translate
-        main_window.setWindowTitle(_translate("main_window", "Form"))
+        main_window.setWindowTitle(_translate("main_window", "Calculator"))
         self.number_e_b.setText(_translate("main_window", "e"))
         self.number_0_b.setText(_translate("main_window", "0"))
         self.number_pi_b.setText(_translate("main_window", "π"))
