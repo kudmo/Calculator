@@ -11,3 +11,5 @@ File form_ui.py is compile to python3 form.ui file
 File slots.py contain methods that processed on buttons
 
 File main.py contain <i>MAIN</i> method
+
+Files historu_window.py contain class History Window

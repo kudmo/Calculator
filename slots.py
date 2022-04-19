@@ -1,4 +1,3 @@
-from decimal import DivisionByZero
 from PyQt5.QtWidgets import QMessageBox
 from form_ui import Ui_main_window
 from calc_processor import Calculator
@@ -154,5 +153,12 @@ class MainWindowSlots(Ui_main_window):
                 msg.setText("Devision by zero")
                 msg.setIcon(QMessageBox.Warning)
                 msg.exec_()
+            except:
+                msg = QMessageBox()
+                msg.setWindowTitle("")
+                msg.setText("Something goes wrong")
+                msg.setIcon(QMessageBox.Warning)
+                msg.exec_()
             self.input_order.setFocus()
+
         return None
