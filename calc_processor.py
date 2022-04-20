@@ -1,5 +1,4 @@
 import math
-import re
 from typing import Union,Optional
 
 from numpy import mat
@@ -42,7 +41,7 @@ class Trigonomethry():
         elif x%(p)==0:
             return 0
         elif x%(p)==p/2:
-            return 1/0
+            raise ZeroDivisionError
         else:
             return math.tan(p)
         
@@ -78,25 +77,62 @@ class Calculator():
         """
         Returns whether there is an operation between each number
         """
+        is_fisrt_number_symbol_zero = False
         is_it_number = False
         was_there_an_operation = False
-        status = 0
+        number_openration_status = 0
+        comma_count = 0                                         #The number of commas in the number
+        is_last_number_symbol_comma = False
+        
+        
+        if inp[-1] == ',':                                      #Last symbol can't be comma
+            return False
+        
+        
         for i in inp:
-            if status>1:
+            if number_openration_status>1:
                 return False
-            if i in '0123456789' and not is_it_number:
+
+            if i in '0123456789,' and not is_it_number:
+                
+                if i==',': 
+                    return False                                 #First symbol in number can't be comma
+                
+                if i=='0': is_fisrt_number_symbol_zero = True
+                
+                was_there_an_operation = False
                 is_it_number = True
-                status+=1
-            elif (not i in '0123456789') and is_it_number:
+                number_openration_status+=1
+            
+            elif i in '0123456789,' and is_it_number:
+                
+                if is_fisrt_number_symbol_zero and i!=',' or comma_count>=2:
+                    return False
+                
+                if i==',': comma_count+=1
+                
+                
+
+            
+            elif (not i in '0123456789,') and is_it_number:
+                if is_last_number_symbol_comma:                        #Last symbol in number can't be comma
+                    return False
+                comma_count = 0
                 is_it_number= False
+            
+            elif not is_it_number:
+                if i==',':
+                    return False
             
             if i in self.operations:
                 if not was_there_an_operation:
-                    status-=1
+                    number_openration_status-=1
                     was_there_an_operation = True
-                elif was_there_an_operation:
-                    was_there_an_operation = False
 
+            if i==',':
+                is_last_number_symbol_comma = True
+            else:
+                is_last_number_symbol_comma = False
         return True
 
     def spacesCheck(self,inp:str)->bool:
@@ -133,10 +169,10 @@ class Calculator():
         for i in range(len(inp)-1):
             if (((inp[i] == '(' or inp[i] == '[') and inp[i+1] in '+*/^') or
                 ((inp[i]==')'or inp[i] == ']') and inp[i+1] in ['1','2','3','4','5','6','7','8','9','0']) or
-                inp[i] in ['1','2','3','4','5','6','7','8','9','0']) and ((inp[i+1]=='('or inp[i+1] == '[') or
-                (inp[i] in self.operations and inp[i+1] in self.operations)):
+                ((inp[i] in ['1','2','3','4','5','6','7','8','9','0']) and ((inp[i+1]=='('or inp[i+1] == '[')) or
+                (inp[i] in self.operations and inp[i+1] in self.operations))):
                 return False
-        return True
+        return True  
     
     def checkingCorrectness(self,inp:list)->bool:
         """
