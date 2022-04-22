@@ -85,7 +85,7 @@ class Calculator():
         is_last_number_symbol_comma = False
         
         
-        if inp[-1] == ',':                                      #Last symbol can't be comma
+        if inp[-1] == ',' or inp[-1]=='.':                                      #Last symbol can't be comma
             return False
         
         
@@ -93,9 +93,9 @@ class Calculator():
             if number_openration_status>1:
                 return False
 
-            if i in '0123456789,' and not is_it_number:
+            if i in '0123456789,.' and not is_it_number:
                 
-                if i==',': 
+                if i==',' or i=='.': 
                     return False                                 #First symbol in number can't be comma
                 
                 if i=='0': is_fisrt_number_symbol_zero = True
@@ -104,12 +104,12 @@ class Calculator():
                 is_it_number = True
                 number_openration_status+=1
             
-            elif i in '0123456789,' and is_it_number:
+            elif i in '0123456789,.' and is_it_number:
                 
-                if is_fisrt_number_symbol_zero and i!=',' or comma_count>=2:
+                if is_fisrt_number_symbol_zero and (i!=',' and i!='.') or comma_count>=2:
                     return False
                 
-                if i==',': comma_count+=1
+                if i==',' or i=='.': comma_count+=1
                 
                 
 
@@ -209,7 +209,7 @@ class Calculator():
 
         return list(output)
 
-    def numbersProcessing(self,inp):
+    def numbersProcessing(self,inp:str)->list:
         """
         Splits a string into numbers and operations
         """
@@ -227,7 +227,7 @@ class Calculator():
             parced.append(number)        
         return parced
 
-    def subelementsProcessing(self,input_str):
+    def subelementsProcessing(self,input_str:Union[list,str])->Union[list,str]:
             """
                 Find all braces subelements and operands between it, than do it for all subelements
             """
@@ -336,6 +336,7 @@ class Calculator():
             else: return float(operation_element)
         else:
             return self.functions[operation_element[0]](operation_element,self)
+    
     
     def run(self,inp:str):
         if not self.spacesCheck(inp):
